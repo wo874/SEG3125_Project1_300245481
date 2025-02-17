@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMoA Tickets</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+        .image-container img {
+            max-width: 300px;
+            height: auto;
+        }
+        .calendar-section {
+            flex-grow: 1;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: auto;
+        }
+        .day-label, .day, .empty {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #000;
+            font-size: 18px;
+        }
+        .day {
+            cursor: pointer;
+            background-color: #fff;
+        }
+        .day:hover {
+            background-color: #f0f0f0;
+        }
+        .ticket-options {
+            margin-top: 20px;
+        }
+        .ticket-options label {
+            display: block;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="artists.html">Art & Artists</a></li>
+                <li><a href="tickets.html">Tickets</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#">Search...</a></li>
+            </ul>
+        </nav>
+        <div class="logo">CMoA</div>
+    </header>
+
+    <main>
+        <h1>&ensp; &emsp;&emsp;April 2025</h1>
+        <h2>&ensp; &emsp;Select Date:</h2>
+        
+        <div class="container">
+            <div class="image-container">
+                <img src="images/kids.jpg" alt="Museum Image">
+            </div>
+            
+            <div class="calendar-section">
+                <div class="calendar" id="calendar"></div>
+                
+                <div class="ticket-options">
+                    <h3>Choose Your Tickets:</h3>
+                    <label>Regular (20$) <input type="number" id="regular" value="0" min="0"></label>
+                    <label>Special (65+/Student - 10$) <input type="number" id="special" value="0" min="0"></label>
+                    <label>Child under 12 (Free) <input type="number" id="child" value="0" min="0"></label>
+                    <button class="purchase-button" onclick="purchaseTickets()">Purchase</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Canadian Museum of Art.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const calendarContainer = document.getElementById("calendar");
+            const daysInMonth = 30;
+            const firstDayOffset = 2;
+            
+            let calendarHTML = '<div class="calendar-grid">';
+            const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            
+            calendarHTML += weekDays.map(day => `<div class="day-label">${day}</div>`).join('');
+            
+            for (let i = 0; i < firstDayOffset; i++) {
+                calendarHTML += '<div class="empty"></div>';
+            }
+            
+            for (let i = 1; i <= daysInMonth; i++) {
+                calendarHTML += `<div class="day" onclick="selectDate(${i})">${i}</div>`;
+            }
+            
+            calendarHTML += '</div>';
+            calendarContainer.innerHTML = calendarHTML;
+        });
+        
+        let selectedDate = null;
+        
+        function selectDate(day) {
+            selectedDate = day;
+            alert(`You selected April ${day}, 2025.`);
+        }
+        
+        function purchaseTickets() {
+            if (!selectedDate) {
+            alert("Please select a date first!");
+                return;
+            }
+            
+            let regular = document.getElementById("regular").value;
+            let special = document.getElementById("special").value;
+            let child = document.getElementById("child").value;
+            
+            window.location.href = `confirm.html?date=${selectedDate}&regular=${regular}&special=${special}&child=${child}`;
+        }
+    </script>
+</body>
+</html>
